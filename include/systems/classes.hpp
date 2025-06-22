@@ -1,0 +1,113 @@
+#pragma once
+#include "api.h"
+#include "LemLib/PID.hpp"
+#include "pros/colors.hpp"
+#include "pros/motors.h"
+#include "pros/optical.hpp"
+#include <string>
+
+// class definitions
+class Intake {
+    
+    public:
+        Intake(pros::Motor intakeMotor, pros::Optical ringColorSensor);
+        enum States {
+            IN,
+            OUT,
+            STOP
+        };
+        void setSpeed(int speed); // set the speed for the intake
+        void setSortColor(pros::Color setColor);
+        void colorSort();
+        void updateState();
+        States getState();
+        void setState(States newState);
+        bool enableSort;
+        pros::Color currentRingColor;
+        void In();
+        void Out();
+        void Stop();
+        std::string getSortColor();
+
+    private:
+        pros::Optical ringColorSensor;
+        pros::Motor intakeMotor;
+        pros::Color setColor;
+        pros::Color oldColor;
+        int intakeSpeed;
+        bool sortNeeded;
+        States state;
+        
+};
+
+class Mogo {
+    public:
+        Mogo(pros::adi::Pneumatics clampPiston); // set a constructor for two pistons, as that is what our system requires
+        void clamp();
+        void release();
+        void toggle();
+        bool isClamped();
+
+    private:
+        pros::adi::Pneumatics clampPiston;
+        bool clampState;
+};
+
+class Doinker {
+    public:
+        Doinker(pros::adi::Pneumatics doinkPiston); // set a constructor for two pistons, as that is what our system requires
+        void down();
+        void up();
+        void toggle();
+
+    private:
+        pros::adi::Pneumatics doinkPiston;
+};
+
+class Arm {
+    private:
+        float setPosition;
+        float currentPosition;
+        float error;
+        lemlib::PID armPID;
+        float stowPos;
+        float readyPos;
+        float ready2Pos;
+        float scorePos;
+        float descorePos;
+        float allianceScorePos;
+        float mogoTiltPos;
+        float mogoScorePos;
+        float mogoUntiltPos;
+        pros::Motor armMotor1;
+        pros::Motor armMotor2;
+        float gearRatio;
+
+    public:
+        Arm(pros::Motor armMotor1, pros::Motor armMotor2, lemlib::PID armPID, float stowPos, float readyPos, float ready2Pos, float scorePos, float descorePos, float allianceScorePos, float mogoScorePos, float mogoTiltPos, float mogoUntiltPos, float gearRatio);
+        enum States {
+            STOW,
+            READY,
+            READY2,
+            SCORE,
+            DESCORE,
+            ALLIANCESCORE,
+            MOGOSCORE,
+            MOGOTILT,
+            MOGOUNTILT
+
+        };
+        States state;
+        States getState();
+        void toggleReady();
+        void toggleMogoTilt();
+        void scoreButton();
+        void updateState();
+        void lowerPos();
+        void raisePos();
+        void resetOffset();
+        int posOffset;
+        void setBrakeMode(pros::motor_brake_mode_e brakeMode);
+        void setState(States newState);
+    
+};
