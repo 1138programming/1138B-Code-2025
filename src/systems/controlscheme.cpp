@@ -6,6 +6,7 @@
 #include "pros/rtos.hpp"
 #include "systems/drive.hpp"
 #include "systems/intake.hpp"
+#include "systems/loader.hpp"
 
 // DT Controls
 void driveControl() {
@@ -24,6 +25,8 @@ void intakeControl(void* param) {
             Intake.ScoreUp();
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
             Intake.ScoreDown();
+        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
+            Intake.ScoreBottom();
         } else {
             Intake.Stop();
         };
@@ -39,5 +42,18 @@ void intakeControl(void* param) {
         // }
         Intake.updateState();
         pros::delay(10);
+    }
+}
+
+// Loader Control
+void loaderControl() {
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+        backLoader.deploy();
+        pros::delay(125);
+        Intake.In();
+    }
+    else {
+        backLoader.retract();
+        Intake.Stop();
     }
 }

@@ -34,7 +34,7 @@ void initialize() {
 
 	newScreen.init(10);
 
-	Intake.setSpeed(100);
+	Intake.setSpeed(127);
 	Intake.setSortColor(pros::Color::blue);
 
 	initilizeControls();
@@ -107,6 +107,7 @@ void opcontrol() {
 	if (pros::competition::is_field_control()) {newScreen.setPage(Screen::LOGO);};
 	while (true) {
 		driveControl();
+		loaderControl();
 		controlsManager.checkAndRestartTasks();				 
 		pros::delay(20);
 	}

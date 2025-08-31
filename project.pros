@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Mach 1",
+    "project_name": "ez pz",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -302,7 +302,8 @@
       }
     },
     "upload_options": {
-      "description": "Noah's Voluptuous Ahhh"
+      "description": "Noah's Voluptuous Ahhh",
+      "icon": "pizza"
     },
     "use_early_access": false
   }

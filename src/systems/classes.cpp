@@ -12,7 +12,7 @@
 //intake
 
 Intake::Intake(pros::Motor intakeMotor_, pros::Motor indexerMotor_, pros::Distance ballDetector_, pros::Distance topBallDetector_, pros::adi::Pneumatics intakeTilter_, pros::Optical ringColorSensor_)
-    : intakeMotor(intakeMotor_), indexerMotor(indexerMotor_), ballDetector(ballDetector_), topBallDetector(topBallDetector_), intakeTilter(intakeTilter_), ringColorSensor(ringColorSensor_), state(Intake::STOP), oldColor(pros::Color::green), enableSort(true) {ringColorSensor.set_integration_time(10); ringColorSensor.set_led_pwm(100); indexerMotor.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);}
+    : intakeMotor(intakeMotor_), indexerMotor(indexerMotor_), ballDetector(ballDetector_), topBallDetector(topBallDetector_), intakeTilter(intakeTilter_), ringColorSensor(ringColorSensor_), state(Intake::STOP), oldColor(pros::Color::green), enableSort(true) {ringColorSensor.set_integration_time(10); ringColorSensor.set_led_pwm(100); indexerMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);}
 
 void Intake::setState(States newState) {
     state = newState;
@@ -32,6 +32,10 @@ void Intake::ScoreUp() {
 
 void Intake::ScoreDown() {
     setState(Intake::SCORE_DOWN);
+}
+
+void Intake::ScoreBottom() {
+    setState(Intake::SCORE_BOTTOM);
 }
 
 void Intake::Stop() {
@@ -73,7 +77,7 @@ void Intake::updateState() {
             break;
         case IN:
             intakeMotor.move(intakeSpeed);
-            if (ballDetector.get() < 130 && !(topBallDetector.get() < 130)) {
+            if (ballDetector.get() < 100) {
                 Advance();
             }
             // if (sortNeeded) {
@@ -98,11 +102,15 @@ void Intake::updateState() {
             // pros::delay(250);
             intakeMotor.move(127);
             indexerMotor.move(127);
+            break;
+        case SCORE_BOTTOM:
+            intakeMotor.move_velocity(-300);
+            indexerMotor.move_velocity(-300);
     }
 }
 
 void Intake::Advance() {
-    indexerMotor.move(100);
+    indexerMotor.move(127);
     pros::delay(20);
     indexerMotor.brake();
 }
@@ -123,4 +131,21 @@ std::string Intake::getSortColor() {
             return "";
             break;
     }
+}
+
+// loader
+
+Loader::Loader(pros::adi::Pneumatics loaderPiston_) 
+   : loaderPiston(loaderPiston_) {}
+
+void Loader::deploy() {
+    loaderPiston.extend();
+}
+
+void Loader::retract() {
+    loaderPiston.retract();
+}
+
+void Loader::toggle() {
+    loaderPiston.toggle();
 }

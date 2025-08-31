@@ -17,7 +17,8 @@ class Intake {
             OUT,
             STOP,
             SCORE_UP,
-            SCORE_DOWN
+            SCORE_DOWN,
+            SCORE_BOTTOM
         };
         void setSpeed(int speed); // set the speed for the intake
         void setSortColor(pros::Color setColor);
@@ -34,6 +35,7 @@ class Intake {
         void Stop();
         void ScoreUp();
         void ScoreDown();
+        void ScoreBottom();
         std::string getSortColor();
 
     private:
@@ -50,4 +52,16 @@ class Intake {
         States state;
         
         
+};
+
+class Loader {
+
+    public:
+        void deploy();
+        void retract();
+        void toggle();
+        Loader(pros::adi::Pneumatics loaderPiston);
+
+    private:
+        pros::adi::Pneumatics loaderPiston;
 };
