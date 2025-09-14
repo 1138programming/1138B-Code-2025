@@ -30,13 +30,6 @@ void intakeControl(void* param) {
         } else {
             Intake.Stop();
         };
-
-        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
-            indexer.move_velocity(.25*600);
-        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2) || master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {}
-        else {
-            indexer.brake();
-        }
         // if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
         //     Intake.enableSort = !Intake.enableSort;
         // }

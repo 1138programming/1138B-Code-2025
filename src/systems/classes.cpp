@@ -1,4 +1,5 @@
 #include "systems/classes.hpp"
+#include "intake.hpp"
 #include "pros/adi.hpp"
 #include "pros/colors.hpp"
 #include "pros/distance.hpp"
@@ -11,8 +12,8 @@
 
 //intake
 
-Intake::Intake(pros::Motor intakeMotor_, pros::Motor indexerMotor_, pros::Distance ballDetector_, pros::Distance topBallDetector_, pros::adi::Pneumatics intakeTilter_, pros::Optical ringColorSensor_)
-    : intakeMotor(intakeMotor_), indexerMotor(indexerMotor_), ballDetector(ballDetector_), topBallDetector(topBallDetector_), intakeTilter(intakeTilter_), ringColorSensor(ringColorSensor_), state(Intake::STOP), oldColor(pros::Color::green), enableSort(true) {ringColorSensor.set_integration_time(10); ringColorSensor.set_led_pwm(100); indexerMotor.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);}
+Intake::Intake(pros::MotorGroup* intakeMotors_, pros::Distance ballDetector_, pros::Distance topBallDetector_, pros::adi::Pneumatics intakeTilter_, pros::Optical ringColorSensor_)
+    : intakeMotors(intakeMotors_), ballDetector(ballDetector_), topBallDetector(topBallDetector_), intakeTilter(intakeTilter_), ringColorSensor(ringColorSensor_), state(Intake::STOP), oldColor(pros::Color::green), enableSort(true) {ringColorSensor.set_integration_time(10); ringColorSensor.set_led_pwm(100);}
 
 void Intake::setState(States newState) {
     state = newState;
@@ -72,52 +73,33 @@ void Intake::setSpeed(int speed) {
 void Intake::updateState() {
     switch (state) {
         case STOP:
-            intakeMotor.brake();
+            intakeTilter.extend();
+            intakeMotors->brake();
             // indexerMotor.brake();
             break;
         case IN:
-            intakeMotor.move(intakeSpeed);
-            if (ballDetector.get() < 100) {
-                Advance();
-            }
-            // if (sortNeeded) {
-            //     sortNeeded = false;
-            //     pros::delay(150);
-            //     intakeMotor.move(-intakeSpeed);
-            //     pros::delay(100);
-            // };
+            intakeTilter.extend();
+            intakeMotors->move(intakeSpeed);
             break;
         case OUT:
-            intakeMotor.move(-intakeSpeed);
-            Retreat();
+            intakeTilter.extend();
+            intakeMotors->move(-intakeSpeed);
             break;
         case SCORE_UP:
             intakeTilter.retract();
             // pros::delay(250);
-            intakeMotor.move(127);
-            indexerMotor.move(127);
+            intakeMotors->move(127);
             break;
         case SCORE_DOWN:
-            intakeTilter.extend();
+            intakeTilter.retract();
             // pros::delay(250);
-            intakeMotor.move(127);
-            indexerMotor.move(127);
+            intakeMotors->move(127);
             break;
         case SCORE_BOTTOM:
-            intakeMotor.move_velocity(-300);
-            indexerMotor.move_velocity(-300);
+            intakeMotors->move_velocity(-300);
     }
 }
 
-void Intake::Advance() {
-    indexerMotor.move(127);
-    pros::delay(20);
-    indexerMotor.brake();
-}
-
-void Intake::Retreat() {
-    indexerMotor.move(-intakeSpeed);
-}
 
 std::string Intake::getSortColor() {
     switch (setColor) {

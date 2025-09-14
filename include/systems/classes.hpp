@@ -3,7 +3,9 @@
 #include "LemLib/PID.hpp"
 #include "pros/adi.hpp"
 #include "pros/colors.hpp"
+#include "pros/motor_group.hpp"
 #include "pros/motors.h"
+#include "pros/motors.hpp"
 #include "pros/optical.hpp"
 #include <string>
 
@@ -11,7 +13,7 @@
 class Intake {
     
     public:
-        Intake(pros::Motor intakeMotor, pros::Motor indexerMotor, pros::Distance ballDetector, pros::Distance topBallDetector, pros::adi::Pneumatics intakeTilter, pros::Optical ringColorSensor);
+        Intake(pros::MotorGroup* intakeMotors, pros::Distance ballDetector, pros::Distance topBallDetector, pros::adi::Pneumatics intakeTilter, pros::Optical ringColorSensor);
         enum States {
             IN,
             OUT,
@@ -28,8 +30,6 @@ class Intake {
         void setState(States newState);
         bool enableSort;
         pros::Color currentRingColor;
-        void Advance();
-        void Retreat();
         void In();
         void Out();
         void Stop();
@@ -43,8 +43,7 @@ class Intake {
         pros::Distance ballDetector;
         pros::Distance topBallDetector;
         pros::adi::Pneumatics intakeTilter;
-        pros::Motor intakeMotor;
-        pros::Motor indexerMotor;
+        pros::MotorGroup* intakeMotors;
         pros::Color setColor;
         pros::Color oldColor;
         int intakeSpeed;

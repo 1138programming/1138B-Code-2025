@@ -3,14 +3,14 @@
 #include "api.h"
 #include "pros/abstract_motor.hpp"
 #include "pros/adi.hpp"
+#include "pros/motor_group.hpp"
 #include "pros/optical.hpp"
 #include "systems/classes.hpp"
+#include <cstddef>
 
-inline pros::Motor intake(11, pros::MotorGearset::blue);
-inline pros::Motor indexer(-4, pros::MotorGearset::blue, pros::MotorEncoderUnits::degrees);
-inline pros::Distance ballSensor(2);
+inline pros::MotorGroup intakemotors({11, 12}, pros::MotorGearset::blue);
 inline pros::Distance topBallSensor(21);
-inline pros::Optical ringColor(22);
-inline pros::adi::Pneumatics intakeLift(8, false);
+inline pros::Optical blockColor(22);
+inline pros::adi::Pneumatics intakeLift(1, false);
 
-inline Intake Intake(intake, indexer, ballSensor, topBallSensor, intakeLift, ringColor);
+inline Intake Intake(&intakemotors, NULL, topBallSensor, intakeLift, blockColor);
