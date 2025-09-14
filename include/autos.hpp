@@ -1,0 +1,2 @@
+void leftAuto();
+void rightAuto();

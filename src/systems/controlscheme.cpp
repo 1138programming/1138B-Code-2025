@@ -21,13 +21,13 @@ void intakeControl(void* param) {
             Intake.In();
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             Intake.Out();
-        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-            Intake.ScoreUp();
+        } else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
+            Intake.ToggleHeight();
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-            Intake.ScoreDown();
+            Intake.Score();
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
             Intake.ScoreBottom();
-        } else {
+        } else if (!pros::competition::is_autonomous()) {
             Intake.Stop();
         };
         // if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
@@ -41,12 +41,15 @@ void intakeControl(void* param) {
 // Loader Control
 void loaderControl() {
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-        backLoader.deploy();
-        pros::delay(125);
-        Intake.In();
+        Loader.extend();
     }
     else {
-        backLoader.retract();
-        Intake.Stop();
+        Loader.retract();
+    };
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+        DescoreArm.extend();
+    }
+    else {
+        DescoreArm.retract();
     }
 }

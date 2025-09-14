@@ -13,13 +13,12 @@
 class Intake {
     
     public:
-        Intake(pros::MotorGroup* intakeMotors, pros::Distance ballDetector, pros::Distance topBallDetector, pros::adi::Pneumatics intakeTilter, pros::Optical ringColorSensor);
+        Intake(pros::MotorGroup* intakeMotors, pros::adi::Pneumatics intakeGate, pros::adi::Pneumatics intakeTilter, pros::Optical ringColorSensor);
         enum States {
             IN,
             OUT,
             STOP,
-            SCORE_UP,
-            SCORE_DOWN,
+            SCORE,
             SCORE_BOTTOM
         };
         void setSpeed(int speed); // set the speed for the intake
@@ -33,15 +32,14 @@ class Intake {
         void In();
         void Out();
         void Stop();
-        void ScoreUp();
-        void ScoreDown();
+        void Score();
+        void ToggleHeight();
         void ScoreBottom();
         std::string getSortColor();
 
     private:
         pros::Optical ringColorSensor;
-        pros::Distance ballDetector;
-        pros::Distance topBallDetector;
+        pros::adi::Pneumatics intakeGate;
         pros::adi::Pneumatics intakeTilter;
         pros::MotorGroup* intakeMotors;
         pros::Color setColor;
@@ -51,16 +49,4 @@ class Intake {
         States state;
         
         
-};
-
-class Loader {
-
-    public:
-        void deploy();
-        void retract();
-        void toggle();
-        Loader(pros::adi::Pneumatics loaderPiston);
-
-    private:
-        pros::adi::Pneumatics loaderPiston;
 };

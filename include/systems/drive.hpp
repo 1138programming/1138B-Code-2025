@@ -14,7 +14,7 @@ inline pros::MotorGroup right_motors({-16, 15, 14}, pros::MotorGearset::blue);
 
 // sensors
 
-inline pros::IMU imu(21);
+inline pros::IMU imu(13);
 inline pros::Rotation horzTracking(21);
 inline pros::Rotation vertTracking(21);
 
@@ -22,8 +22,8 @@ inline lemlib::TrackingWheel horzTracker(&horzTracking, lemlib::Omniwheel::NEW_2
 inline lemlib::TrackingWheel vertTracker(&vertTracking, lemlib::Omniwheel::NEW_2, 0);
 // LEMLIB
 
-inline double trackWidth = 11.5;
-inline double WheelSize = 2.52;
+inline double trackWidth = 10.5;
+inline double WheelSize = lemlib::Omniwheel::NEW_325;
 inline int DriveRPM = 450;
 inline int HorzDrift = 12;
 
@@ -43,9 +43,9 @@ inline lemlib::Drivetrain drivetrain(
 
 // odom settings
 
-inline lemlib::OdomSensors OdomSensors(&vertTracker, // vertical tracking wheel 1, set to null
+inline lemlib::OdomSensors OdomSensors(nullptr, // vertical tracking wheel 1, set to null
                             nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
-                            &horzTracker, // horizontal tracking wheel 1
+                            nullptr, // horizontal tracking wheel 1
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu // inertial sensor
 );
@@ -67,7 +67,7 @@ inline lemlib::ControllerSettings lateral_controller(10, // proportional gain (k
 
 // Angular PID
 
-inline lemlib::ControllerSettings angular_controller(3.5, // proportional gain (kP)
+inline lemlib::ControllerSettings angular_controller(2.5, // proportional gain (kP)
                                               0, // integral gain (kI)
                                               30, // derivative gain (kD)
                                               5, // anti windup

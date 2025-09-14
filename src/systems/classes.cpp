@@ -12,8 +12,8 @@
 
 //intake
 
-Intake::Intake(pros::MotorGroup* intakeMotors_, pros::Distance ballDetector_, pros::Distance topBallDetector_, pros::adi::Pneumatics intakeTilter_, pros::Optical ringColorSensor_)
-    : intakeMotors(intakeMotors_), ballDetector(ballDetector_), topBallDetector(topBallDetector_), intakeTilter(intakeTilter_), ringColorSensor(ringColorSensor_), state(Intake::STOP), oldColor(pros::Color::green), enableSort(true) {ringColorSensor.set_integration_time(10); ringColorSensor.set_led_pwm(100);}
+Intake::Intake(pros::MotorGroup* intakeMotors_, pros::adi::Pneumatics intakeGate_, pros::adi::Pneumatics intakeTilter_, pros::Optical ringColorSensor_)
+    : intakeMotors(intakeMotors_), intakeGate(intakeGate_), intakeTilter(intakeTilter_), ringColorSensor(ringColorSensor_), state(Intake::STOP), oldColor(pros::Color::green), enableSort(true) {ringColorSensor.set_integration_time(10); ringColorSensor.set_led_pwm(100);}
 
 void Intake::setState(States newState) {
     state = newState;
@@ -27,16 +27,16 @@ void Intake::In() {
     setState(Intake::IN);
 }
 
-void Intake::ScoreUp() {
-    setState(Intake::SCORE_UP);
-}
-
-void Intake::ScoreDown() {
-    setState(Intake::SCORE_DOWN);
+void Intake::Score() {
+    setState(Intake::SCORE);
 }
 
 void Intake::ScoreBottom() {
     setState(Intake::SCORE_BOTTOM);
+}
+
+void Intake::ToggleHeight() {
+    intakeTilter.toggle();
 }
 
 void Intake::Stop() {
@@ -73,25 +73,20 @@ void Intake::setSpeed(int speed) {
 void Intake::updateState() {
     switch (state) {
         case STOP:
-            intakeTilter.extend();
+            intakeGate.extend();
             intakeMotors->brake();
             // indexerMotor.brake();
             break;
         case IN:
-            intakeTilter.extend();
+            intakeGate.extend();
             intakeMotors->move(intakeSpeed);
             break;
         case OUT:
-            intakeTilter.extend();
+            intakeGate.extend();
             intakeMotors->move(-intakeSpeed);
             break;
-        case SCORE_UP:
-            intakeTilter.retract();
-            // pros::delay(250);
-            intakeMotors->move(127);
-            break;
-        case SCORE_DOWN:
-            intakeTilter.retract();
+        case SCORE:
+            intakeGate.retract();
             // pros::delay(250);
             intakeMotors->move(127);
             break;
@@ -113,21 +108,4 @@ std::string Intake::getSortColor() {
             return "";
             break;
     }
-}
-
-// loader
-
-Loader::Loader(pros::adi::Pneumatics loaderPiston_) 
-   : loaderPiston(loaderPiston_) {}
-
-void Loader::deploy() {
-    loaderPiston.extend();
-}
-
-void Loader::retract() {
-    loaderPiston.retract();
-}
-
-void Loader::toggle() {
-    loaderPiston.toggle();
 }
