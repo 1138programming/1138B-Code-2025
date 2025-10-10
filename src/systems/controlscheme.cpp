@@ -46,10 +46,7 @@ void loaderControl() {
     else {
         Loader.retract();
     };
-    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
-        DescoreArm.extend();
-    }
-    else {
-        DescoreArm.retract();
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
+        DescoreArm.toggle();
     }
 }

@@ -8,21 +8,21 @@
 
 
 
-inline pros::MotorGroup left_motors({19, -18, -20}, pros::MotorGearset::blue);
+inline pros::MotorGroup left_motors({15, -14, -16}, pros::MotorGearset::blue);
 
-inline pros::MotorGroup right_motors({-16, 15, 14}, pros::MotorGearset::blue);
+inline pros::MotorGroup right_motors({-18, 19, 20}, pros::MotorGearset::blue);
 
 // sensors
 
 inline pros::IMU imu(13);
-inline pros::Rotation horzTracking(21);
-inline pros::Rotation vertTracking(21);
+inline pros::Rotation horzTracking(9);
+inline pros::Rotation vertTracking(10);
 
-inline lemlib::TrackingWheel horzTracker(&horzTracking, lemlib::Omniwheel::NEW_2, 1.8125);
-inline lemlib::TrackingWheel vertTracker(&vertTracking, lemlib::Omniwheel::NEW_2, 0);
+inline lemlib::TrackingWheel horzTracker(&horzTracking, lemlib::Omniwheel::NEW_2, -4.25);
+inline lemlib::TrackingWheel vertTracker(&vertTracking, lemlib::Omniwheel::NEW_2, -0.375);
 // LEMLIB
 
-inline double trackWidth = 10.5;
+inline double trackWidth = 10.25;
 inline double WheelSize = lemlib::Omniwheel::NEW_325;
 inline int DriveRPM = 450;
 inline int HorzDrift = 12;
@@ -43,9 +43,9 @@ inline lemlib::Drivetrain drivetrain(
 
 // odom settings
 
-inline lemlib::OdomSensors OdomSensors(nullptr, // vertical tracking wheel 1, set to null
+inline lemlib::OdomSensors OdomSensors(&vertTracker, // vertical tracking wheel 1, set to null
                             nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
-                            nullptr, // horizontal tracking wheel 1
+                            &horzTracker, // horizontal tracking wheel 1
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu // inertial sensor
 );
@@ -54,7 +54,7 @@ inline lemlib::OdomSensors OdomSensors(nullptr, // vertical tracking wheel 1, se
 
 // Lateral PID
 
-inline lemlib::ControllerSettings lateral_controller(10, // proportional gain (kP)
+inline lemlib::ControllerSettings lateral_controller(5, // proportional gain (kP)
                                               0, // integral gain (kI)
                                               3, // derivative gain (kD)
                                               3, // anti windup
@@ -69,7 +69,7 @@ inline lemlib::ControllerSettings lateral_controller(10, // proportional gain (k
 
 inline lemlib::ControllerSettings angular_controller(2.5, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              30, // derivative gain (kD)
+                                              20, // derivative gain (kD)
                                               5, // anti windup
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds

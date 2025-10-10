@@ -11,7 +11,7 @@
 inline pros::MotorGroup intakemotors({11, 12}, pros::MotorGearset::blue);
 inline pros::Distance topBallSensor(21);
 inline pros::Optical blockColor(22);
-inline pros::adi::Pneumatics intakeGate(1, false);
-inline pros::adi::Pneumatics intakeLift(2, true);
+inline pros::adi::Pneumatics intakeGate(5, false);
+inline pros::adi::Pneumatics intakeLift(3, true);
 
 inline Intake Intake(&intakemotors, intakeGate, intakeLift, blockColor);
