@@ -40,12 +40,9 @@ void intakeControl(void* param) {
 
 // Loader Control
 void loaderControl() {
-    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
-        Loader.extend();
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+        Loader.toggle();
     }
-    else {
-        Loader.retract();
-    };
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_Y)) {
         DescoreArm.toggle();
     }

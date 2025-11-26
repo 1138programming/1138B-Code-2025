@@ -2,6 +2,7 @@
 #include "api.h"
 #include "lemlib/api.hpp"
 #include "lemlib/chassis/trackingWheel.hpp"
+#include "pros/adi.hpp"
 #include "pros/distance.hpp"
 
 // motors
@@ -18,14 +19,15 @@ inline pros::IMU imu(13);
 inline pros::Rotation horzTracking(9);
 inline pros::Rotation vertTracking(10);
 
-inline lemlib::TrackingWheel horzTracker(&horzTracking, lemlib::Omniwheel::NEW_2, -4.25);
+inline pros::adi::Pneumatics odomRetract(1, false);
+
 inline lemlib::TrackingWheel vertTracker(&vertTracking, lemlib::Omniwheel::NEW_2, -0.375);
 // LEMLIB
 
 inline double trackWidth = 10.25;
 inline double WheelSize = lemlib::Omniwheel::NEW_325;
 inline int DriveRPM = 450;
-inline int HorzDrift = 12;
+inline int HorzDrift = 24;
 
 // drivetrain settings
 
@@ -45,7 +47,7 @@ inline lemlib::Drivetrain drivetrain(
 
 inline lemlib::OdomSensors OdomSensors(&vertTracker, // vertical tracking wheel 1, set to null
                             nullptr, // vertical tracking wheel 2, set to nullptr as we are using IMEs
-                            &horzTracker, // horizontal tracking wheel 1
+                            nullptr, // horizontal tracking wheel 1
                             nullptr, // horizontal tracking wheel 2, set to nullptr as we don't have a second one
                             &imu // inertial sensor
 );

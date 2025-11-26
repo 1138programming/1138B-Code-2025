@@ -5,8 +5,8 @@
 
 
 inline Screen newScreen(
-{{&leftAuto, "Left Side"}, {&rightAuto, "Right Side"}}, 
-{{&leftAuto, "Left Side"}, {&rightAuto, "Right Side"}}, 
+{{&left9Ball, "Left Side"}, {&left9BallElims, "Left Side - Elims"}, {&right9Ball, "Right Side"}}, 
+{{&left9Ball, "Left Side"}, {&left9BallElims, "Left Side - Elims"}, {&right9Ball, "Right Side"}}, 
 {{"Left Front", left_motors.get_port(0)}, {"Left Mid", left_motors.get_port(1)}, {"Left Back", left_motors.get_port(2)}, 
 {"Right Front", right_motors.get_port(0)}, {"Right Mid", right_motors.get_port(1)},{"Right Back", right_motors.get_port(2)},
 {"Intake 1", intakemotors.get_port(0)}, {"Intake 2", intakemotors.get_port(1)}});
