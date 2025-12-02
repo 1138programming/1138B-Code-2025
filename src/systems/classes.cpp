@@ -12,8 +12,8 @@
 
 //intake
 
-Intake::Intake(pros::MotorGroup* intakeMotors_, pros::adi::Pneumatics intakeGate_, pros::adi::Pneumatics intakeTilter_, pros::Optical ringColorSensor_)
-    : intakeMotors(intakeMotors_), intakeGate(intakeGate_), intakeTilter(intakeTilter_), ringColorSensor(ringColorSensor_), state(Intake::STOP), oldColor(pros::Color::green), enableSort(true) {ringColorSensor.set_integration_time(10); ringColorSensor.set_led_pwm(100);}
+Intake::Intake(pros::Motor* intakeMotor_, pros::Motor* hoodMotor_, pros::adi::Pneumatics intakeTray_, pros::adi::Pneumatics intakeTilter_, pros::adi::Pneumatics hoodTilter_, pros::Optical ringColorSensor_)
+    : intakeMotor(intakeMotor_), hoodMotor(hoodMotor_), intakeTray(intakeTray_), intakeTilter(intakeTilter_), hoodTilter(hoodTilter_), ringColorSensor(ringColorSensor_), state(Intake::STOP), oldColor(pros::Color::green), enableSort(true) {ringColorSensor.set_integration_time(10); ringColorSensor.set_led_pwm(100);}
 
 void Intake::setState(States newState) {
     state = newState;
@@ -29,6 +29,10 @@ void Intake::In() {
 
 void Intake::Score() {
     setState(Intake::SCORE);
+}
+
+void Intake::ScoreMid() {
+    setState(Intake::SCORE_MID);
 }
 
 void Intake::ScoreBottom() {
@@ -73,25 +77,31 @@ void Intake::setSpeed(int speed) {
 void Intake::updateState() {
     switch (state) {
         case STOP:
-            intakeGate.extend();
-            intakeMotors->brake();
-            // indexerMotor.brake();
+            intakeTray.retract();
+            intakeMotor->brake();
+            hoodMotor->brake();
             break;
         case IN:
-            intakeGate.extend();
-            intakeMotors->move(intakeSpeed);
+            intakeTray.retract();
+            intakeMotor->move(intakeSpeed);
             break;
         case OUT:
-            intakeGate.extend();
-            intakeMotors->move(-intakeSpeed);
+            intakeTray.retract();
+            intakeMotor->move(-intakeSpeed);
             break;
         case SCORE:
-            intakeGate.retract();
-            // pros::delay(250);
-            intakeMotors->move(127);
+            intakeTray.retract();
+            intakeMotor->move(127);
+            hoodMotor->move(127);
+            break;
+        case SCORE_MID:
+            intakeTray.extend();
+            intakeMotor->move(127); 
+            hoodMotor->move(-127);
             break;
         case SCORE_BOTTOM:
-            intakeMotors->move_velocity(-300);
+            intakeMotor->move_velocity(-300);
+            break;
     }
 }
 

@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "ez pz",
+    "project_name": "win",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -302,7 +302,7 @@
       }
     },
     "upload_options": {
-      "description": "Noah's Voluptuous Ahhh",
+      "description": "\"why is it so good question mark\"",
       "icon": "pizza"
     },
     "use_early_access": false

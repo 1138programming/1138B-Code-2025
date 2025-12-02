@@ -3,3 +3,4 @@
 
 inline pros::adi::Pneumatics Loader(2, false);
 inline pros::adi::Pneumatics DescoreArm(4, false);
+inline pros::adi::Pneumatics Park(5, false);

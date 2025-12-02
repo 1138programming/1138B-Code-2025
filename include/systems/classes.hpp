@@ -13,12 +13,13 @@
 class Intake {
     
     public:
-        Intake(pros::MotorGroup* intakeMotors, pros::adi::Pneumatics intakeGate, pros::adi::Pneumatics intakeTilter, pros::Optical ringColorSensor);
+        Intake(pros::Motor* intakeMotor, pros::Motor* hoodMotor, pros::adi::Pneumatics intakeTray, pros::adi::Pneumatics intakeTilter, pros::adi::Pneumatics hoodTilter, pros::Optical ringColorSensor);
         enum States {
             IN,
             OUT,
             STOP,
             SCORE,
+            SCORE_MID,
             SCORE_BOTTOM
         };
         void setSpeed(int speed); // set the speed for the intake
@@ -33,15 +34,18 @@ class Intake {
         void Out();
         void Stop();
         void Score();
+        void ScoreMid();
         void ToggleHeight();
         void ScoreBottom();
         std::string getSortColor();
 
     private:
         pros::Optical ringColorSensor;
-        pros::adi::Pneumatics intakeGate;
+        pros::adi::Pneumatics intakeTray;
         pros::adi::Pneumatics intakeTilter;
-        pros::MotorGroup* intakeMotors;
+        pros::adi::Pneumatics hoodTilter;
+        pros::Motor* intakeMotor;
+        pros::Motor* hoodMotor;
         pros::Color setColor;
         pros::Color oldColor;
         int intakeSpeed;

@@ -8,10 +8,12 @@
 #include "systems/classes.hpp"
 #include <cstddef>
 
-inline pros::MotorGroup intakemotors({11, 12}, pros::MotorGearset::blue);
+inline pros::Motor intakemotor(-11, pros::MotorGearset::blue);
+inline pros::Motor hoodmotor(12, pros::MotorGearset::blue);
 inline pros::Distance topBallSensor(21);
 inline pros::Optical blockColor(22);
-inline pros::adi::Pneumatics intakeGate(5, false);
+inline pros::adi::Pneumatics intakeTray(5, false);
 inline pros::adi::Pneumatics intakeLift(3, true);
+inline pros::adi::Pneumatics hoodLift(8, false);
 
-inline Intake Intake(&intakemotors, intakeGate, intakeLift, blockColor);
+inline Intake Intake(&intakemotor, &hoodmotor, intakeTray, intakeLift, hoodLift, blockColor);
