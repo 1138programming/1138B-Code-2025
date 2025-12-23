@@ -93,7 +93,7 @@ void autonomous() {
 	float startTime = pros::millis();
 	newScreen.setPage(Screen::LOGO);
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-	// left9Ball();
+	// right9();
 	newScreen.runSelected();
 	float endTime = pros::millis();
     float totalTime = endTime - startTime;

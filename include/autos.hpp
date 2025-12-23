@@ -1,7 +1,4 @@
-void leftAuto();
-void left9Ball();
-void left9BallElims();
-void right9Ball();
-void rightAuto();
-void imgonnatouchuadi();
-void skills();
+extern void soloPleaseHit();
+extern void Split7Left();
+extern void right9();
+extern void pidTuning();

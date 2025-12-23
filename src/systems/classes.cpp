@@ -12,8 +12,8 @@
 
 //intake
 
-Intake::Intake(pros::Motor* intakeMotor_, pros::Motor* hoodMotor_, pros::adi::Pneumatics intakeTray_, pros::adi::Pneumatics intakeTilter_, pros::adi::Pneumatics hoodTilter_, pros::Optical ringColorSensor_)
-    : intakeMotor(intakeMotor_), hoodMotor(hoodMotor_), intakeTray(intakeTray_), intakeTilter(intakeTilter_), hoodTilter(hoodTilter_), ringColorSensor(ringColorSensor_), state(Intake::STOP), oldColor(pros::Color::green), enableSort(true) {ringColorSensor.set_integration_time(10); ringColorSensor.set_led_pwm(100);}
+Intake::Intake(pros::Motor* intakeMotor_, pros::Motor* hoodMotor_, pros::adi::Pneumatics intakeTray_, pros::adi::Pneumatics hoodTilter_, pros::Optical ringColorSensor_)
+    : intakeMotor(intakeMotor_), hoodMotor(hoodMotor_), intakeTray(intakeTray_), hoodTilter(hoodTilter_), ringColorSensor(ringColorSensor_), state(Intake::STOP), oldColor(pros::Color::green), enableSort(true) {ringColorSensor.set_integration_time(10); ringColorSensor.set_led_pwm(100);}
 
 void Intake::setState(States newState) {
     state = newState;
@@ -35,12 +35,12 @@ void Intake::ScoreMid() {
     setState(Intake::SCORE_MID);
 }
 
-void Intake::ScoreBottom() {
-    setState(Intake::SCORE_BOTTOM);
+void Intake::ScoreMidSlow() {
+    setState(Intake::SCORE_MID_SLOW);
 }
 
-void Intake::ToggleHeight() {
-    intakeTilter.toggle();
+void Intake::ScoreBottom() {
+    setState(Intake::SCORE_BOTTOM);
 }
 
 void Intake::Stop() {
@@ -78,26 +78,37 @@ void Intake::updateState() {
     switch (state) {
         case STOP:
             intakeTray.retract();
+            //hoodTilter.retract();
             intakeMotor->brake();
             hoodMotor->brake();
             break;
         case IN:
             intakeTray.retract();
+            //hoodTilter.retract();
             intakeMotor->move(intakeSpeed);
             break;
         case OUT:
             intakeTray.retract();
+            //hoodTilter.retract();
             intakeMotor->move(-intakeSpeed);
             break;
         case SCORE:
             intakeTray.retract();
+            //hoodTilter.extend();
             intakeMotor->move(127);
             hoodMotor->move(127);
             break;
         case SCORE_MID:
             intakeTray.extend();
+            //hoodTilter.retract();
             intakeMotor->move(127); 
-            hoodMotor->move(-127);
+            hoodMotor->move((-127*0.70));
+            break;
+        case SCORE_MID_SLOW:
+            intakeTray.extend();
+            //hoodTilter.retract();
+            intakeMotor->move((127*1.00)); 
+            hoodMotor->move((-127*0.2));
             break;
         case SCORE_BOTTOM:
             intakeMotor->move_velocity(-300);

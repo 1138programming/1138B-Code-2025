@@ -21,8 +21,6 @@ void intakeControl(void* param) {
             Intake.In();
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
             Intake.Out();
-        } else if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
-            Intake.ToggleHeight();
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
             Intake.Score();
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {

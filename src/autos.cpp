@@ -33,249 +33,161 @@ void relativeOdom(float xChange, float yChange, float maxSpeed, int timeout) {
     chassis.moveToPoint((currentX+xChange), (currentY+yChange), timeout);
 }
 
-void leftAuto() {
-    chassis.setPose(-48,8,0);
-    chassis.moveToPoint(-48, 48, 1500, {.maxSpeed=(127*0.75)});
-    chassis.waitUntilDone();
-    chassis.turnToHeading(135, 1250);
-    chassis.waitUntilDone();
-    Intake.In();
-    chassis.moveToPoint(-20, 32, 2500, {.maxSpeed=(127*0.5)});
-    chassis.waitUntilDone();
-    chassis.moveToPoint(-48, 52, 3500, {.forwards=false, .maxSpeed=(127*0.5)});
-    chassis.waitUntilDone();
-    chassis.turnToHeading(90, 1200);
-    chassis.waitUntilDone();
-    chassis.moveToPoint(-28, 52, 3500, {.maxSpeed=(127*0.5)});
-    chassis.waitUntilDone();
-    moveRelative(-1, 127*0.33, 750);
-    chassis.waitUntilDone();
-    Intake.Score();
-    pros::delay(2000);
-    Intake.Stop();
-    moveRelative(-12, 127*0.5, 1500);
-    chassis.waitUntilDone();
-    chassis.turnToHeading(270, 1000);
-    chassis.waitUntilDone();
-}
-
-void left9Ball() {
-    chassis.setPose(-49.5, 16, 90);
-    Intake.In();
-    chassis.moveToPoint(-18, 25, 500, {.maxSpeed=(127*0.5), .earlyExitRange=16});
-    chassis.waitUntilDone();
-    chassis.moveToPoint(-18, 25, 2500, {.maxSpeed=(127*0.3)});
-    chassis.waitUntilDone();
-    chassis.waitUntilDone();
-    chassis.moveToPoint(-48, 51, 2000, {.forwards=false});
-    chassis.waitUntilDone();
-    chassis.turnToHeading(90, 750);
-    chassis.waitUntilDone();
-    relativeOdom(18, 0, 127, 750);
-    chassis.waitUntilDone();
-    moveRelative(-2, 127, 500);
-    chassis.waitUntilDone();
-    Intake.Score();
-    pros::delay(3000);
-    moveRelative(-4, 127, 750);
-    chassis.waitUntilDone();
-    Intake.Stop();
-    odomRetract.extend();
-    // chassis.moveToPoint(-48, 49, 1750, {.forwards=false});
-    // chassis.waitUntilDone();
-    // chassis.turnToHeading(270, 750);
-    // chassis.waitUntilDone();
-    // chassis.moveToPoint(-55, 49, 750, {.earlyExitRange=4});
-    // Intake.ToggleHeight();
-    // Loader.extend();
-    // chassis.waitUntilDone();
-    // chassis.moveToPoint(-60, 49, 750, {.maxSpeed=(127*0.5)});
-    // Intake.In();
-    // chassis.waitUntilDone();
-    // pros::delay(1250);
-    // moveRelative(-12, 127, 750);
-    // chassis.waitUntilDone();
-    // Loader.retract();
-    // chassis.turnToHeading(90, 750);
-    // chassis.waitUntilDone();
-    // chassis.moveToPoint(-30, 49, 750);
-    // chassis.waitUntilDone();
-    // Intake.Score();
-    // pros::delay(1000);
-    // moveRelative(-6, 127*0.5, 750);
-    // chassis.waitUntilDone();
-    // Intake.Stop();
-}
-
-void left9BallElims() {
-    chassis.setPose(-49.5, 16, 90);
-    Intake.In();
-    chassis.moveToPoint(-18, 25, 500, {.maxSpeed=(127*0.5), .earlyExitRange=16});
-    chassis.waitUntilDone();
-    chassis.moveToPoint(-18, 25, 2500, {.maxSpeed=(127*0.3)});
-    chassis.waitUntilDone();
-    // Intake.ToggleHeight();
-    // chassis.moveToPose(-13, 17, 135, 1500,{.maxSpeed=(127*0.75)});
-    // chassis.waitUntilDone();
-    // Intake.Score();
-    // pros::delay(1000);
-    // Intake.Stop();
-    // moveRelative(-20, 127, 750);
-    // chassis.waitUntilDone();
-    chassis.moveToPoint(-48, 52, 2000, {.forwards=false});
-    chassis.waitUntilDone();
-    chassis.turnToHeading(270, 750);
-    chassis.waitUntilDone();
+void soloPleaseHit() {
+    chassis.setPose(-48, -17.25, 180);
+    chassis.moveToPoint(-48, -48, 750);
     Loader.extend();
-    relativeOdom(-18, 0, 127, 750);
+    chassis.waitUntilDone();
+    chassis.turnToHeading(270, 500);
+    chassis.waitUntilDone();
     Intake.In();
+    chassis.moveToPoint(-58, -48, 500);
     chassis.waitUntilDone();
-    for (int i=0; i<3; i++) {
-        moveRelative(-3, 127, 250);
-        chassis.waitUntilDone();
-        chassis.tank(127, 127);
-        pros::delay(250);
-        chassis.tank(0, 0);
-    }
-    moveRelative(-18, 127, 1250);
+    chassis.tank((127*0.4), (127*0.4));
+    pros::delay(550);
+    chassis.tank(0, 0);
+    chassis.moveToPoint(-28, -48, 1000, {.forwards=false});
     chassis.waitUntilDone();
+    Intake.Score();
+    pros::delay(1000);
+    Intake.Stop();
     Loader.retract();
-    chassis.turnToHeading(90, 750);
+    chassis.moveToPoint(-48, -48, 300);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-30, 50, 1250);
-    chassis.waitUntilDone();
-    chassis.turnToHeading(90, 750);
-    chassis.waitUntilDone();
-    // moveRelative(-2, 127, 500);
-    // chassis.waitUntilDone();
-    Intake.Score();
-    pros::delay(3000);
-    moveRelative(-8, 33, 1500);
-    chassis.waitUntilDone();
-    Intake.Stop();
-    odomRetract.extend();
-    // chassis.moveToPoint(-48, 49, 1750, {.forwards=false});
-    // chassis.waitUntilDone();
-    // chassis.turnToHeading(270, 750);
-    // chassis.waitUntilDone();
-    // chassis.moveToPoint(-55, 49, 750, {.earlyExitRange=4});
-    // Intake.ToggleHeight();
+    chassis.moveToPoint(-24, -24, 1000);
+    Intake.In();
+    // chassis.waitUntil(22);
     // Loader.extend();
-    // chassis.waitUntilDone();
-    // chassis.moveToPoint(-60, 49, 750, {.maxSpeed=(127*0.5)});
-    // Intake.In();
-    // chassis.waitUntilDone();
-    // pros::delay(1250);
-    // moveRelative(-12, 127, 750);
-    // chassis.waitUntilDone();
+    chassis.moveToPoint(-24, 28, 1250);
+    // chassis.waitUntil(4);
     // Loader.retract();
-    // chassis.turnToHeading(90, 750);
-    // chassis.waitUntilDone();
-    // chassis.moveToPoint(-30, 49, 750);
-    // chassis.waitUntilDone();
-    // Intake.Score();
-    // pros::delay(1000);
-    // moveRelative(-6, 127*0.5, 750);
-    // chassis.waitUntilDone();
-    // Intake.Stop();
-}
-
-void rightAuto() {
-    chassis.setPose(-48,-18,180);
-    chassis.moveToPoint(-48, -48, 750, {.maxSpeed=(127*0.5)});
+    chassis.waitUntil(34);
+    Loader.extend();
     chassis.waitUntilDone();
-    chassis.turnToHeading(45, 1250);
+    chassis.turnToPoint(-7, 13, 500, {.forwards=false});
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-7, 13, 650, {.forwards=false});
+    Intake.Out();
+    chassis.waitUntil(1);
+    Intake.Stop();
+    chassis.waitUntilDone();
+    Intake.ScoreMid();
+    pros::delay(1350);
+    chassis.moveToPoint(-48, 54, 1000);
+    Intake.Stop();
+    chassis.waitUntilDone();
+    chassis.turnToHeading(270, 500);
     chassis.waitUntilDone();
     Intake.In();
-    chassis.moveToPoint(-20, -20, 2500, {.maxSpeed=(127*0.33)});
+    chassis.moveToPoint(-58, 54, 650);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-48, -46, 2500, {.forwards=false, .maxSpeed=(127*0.5)});
-    chassis.waitUntilDone();
-    chassis.turnToHeading(90, 1200);
-    chassis.waitUntilDone();
-    chassis.moveToPoint(-28, -46, 2500, {.maxSpeed=(127*0.5)});
-    chassis.waitUntilDone();
-    moveRelative(-1, 127*0.33, 750);
+    chassis.tank((127*0.75), (127*0.75));
+    pros::delay(550);
+    chassis.tank(0, 0);
+    chassis.moveToPoint(-28, 54, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Intake.Score();
-    pros::delay(2000);
+    pros::delay(1850);
     Intake.Stop();
-    moveRelative(-12, 127*0.5, 1500);
-    chassis.waitUntilDone();
-    chassis.turnToHeading(270, 1000);
-    chassis.waitUntilDone();
+    Loader.retract();
 }
 
-void right9Ball() {
-    chassis.setPose(49.5, 16, 270);
+void Split7Left() {
+    chassis.setPose(-48, 17, 90);
+    chassis.moveToPoint(-24, 24, 750);
     Intake.In();
-    chassis.moveToPoint(18, 25, 500, {.maxSpeed=(127*0.5), .earlyExitRange=16});
+    chassis.waitUntil(18);
+    Loader.extend();
     chassis.waitUntilDone();
-    chassis.moveToPoint(18, 25, 2500, {.maxSpeed=(127*0.3)});
+    chassis.turnToPoint(-8, 8, 500, {.forwards=false});
     chassis.waitUntilDone();
+    chassis.moveToPoint(-8, 8, 750, {.forwards=false});
     chassis.waitUntilDone();
-    chassis.moveToPoint(48, 51, 2000, {.forwards=false});
+    Intake.ScoreMid();
+    pros::delay(1500);
+    chassis.moveToPoint(-48, 51, 1000);
+    chassis.waitUntil(4);
+    Intake.Stop();
     chassis.waitUntilDone();
-    chassis.turnToHeading(270, 750);
+    chassis.turnToHeading(270, 500);
     chassis.waitUntilDone();
-    relativeOdom(-18, 0, 127, 750);
+    Intake.In();
+    chassis.moveToPoint(-58, 51, 650);
     chassis.waitUntilDone();
-    moveRelative(-2, 127, 500);
+    chassis.tank((127*0.5), (127*0.5));
+    pros::delay(550);
+    chassis.tank(0, 0);
+    chassis.moveToPoint(-28, 51, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Intake.Score();
-    pros::delay(3000);
-    moveRelative(-4, 127, 750);
-    chassis.waitUntilDone();
+    pros::delay(1850);
     Intake.Stop();
-    odomRetract.extend();
+    Loader.retract();
+    chassis.moveToPoint(-48, 38, 1250);
+    chassis.waitUntilDone();
+    chassis.turnToHeading(270, 500);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-8, 38, 1000, {.forwards=false});
+    chassis.waitUntilDone();
+    chassis.turnToHeading(270, 500);
+    chassis.waitUntilDone();
 }
 
-void imgonnatouchuadi() {
-    chassis.setPose(-48, -13, 180);
-    chassis.moveToPoint(-48, -48, 1000);
+void right9() {
+    chassis.setPose(-48, -17, 90);
+    chassis.moveToPoint(-24, -24, 750);
+    Intake.In();
+    DescoreArm.extend();
+    // chassis.waitUntil(18);
+    // Loader.extend();
     chassis.waitUntilDone();
-    chassis.turnToHeading(90, 750);
+    chassis.turnToPoint(-5, -48, 750);
     chassis.waitUntilDone();
-    relativeOdom(28, 0, 127, 1000);
-    chassis.waitUntilDone();
-    moveRelative(-2, 127, 500);
-    chassis.waitUntilDone();
-    Intake.Score();
-    pros::delay(3000);
-    moveRelative(-6, 127, 750);
-    chassis.waitUntilDone();
-    Intake.Stop();
-}
-
-void skills() {
-    chassis.setPose(-48, 0, 0);
-    chassis.moveToPoint(-48, 47, 2000);
-    chassis.waitUntilDone();
-    chassis.turnToHeading(270, 1250);
+    chassis.moveToPoint(-6, -44, 1250);
+    Loader.retract();
     chassis.waitUntilDone();
     Loader.extend();
     pros::delay(500);
-    Intake.In();
-    chassis.tank(50, 50);
-    pros::delay(750);
-    chassis.tank(0, 0);
-    pros::delay(1000);
-    for (int i=0; i<2; i++) {
-        moveRelative(3, 127, 500);
-        chassis.waitUntilDone();
-    };
-    moveRelative(-12, 127, 750);
+    moveRelative(-16, 127, 750);
+    chassis.waitUntil(12);
+    Intake.Out();
+    chassis.waitUntil(13);
+    Intake.Stop();
     chassis.waitUntilDone();
     Loader.retract();
-    chassis.turnToHeading(90, 1000);
+    chassis.turnToPoint(-48, -51, 750);
     chassis.waitUntilDone();
-    chassis.moveToPose(-32, 50, 90, 1500);
+    chassis.moveToPoint(-48, -51, 1250);
+    chassis.waitUntilDone();
+    chassis.turnToHeading(270, 750);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(-28, -51, 1000, {.forwards=false});
     chassis.waitUntilDone();
     Intake.Score();
-    pros::delay(2500);
-    Intake.Stop();
-    moveRelative(-12, 127, 750);
+    pros::delay(1500);
+    Intake.In();
+    Loader.extend();
+    chassis.turnToHeading(270, 750);
     chassis.waitUntilDone();
+    chassis.moveToPoint(-58, -51, 1000);
+    chassis.waitUntilDone();
+    chassis.tank((127*0.5), (127*0.5));
+    pros::delay(600);
+    chassis.tank(0, 0);
+    chassis.moveToPoint(-28, -51, 1250, {.forwards=false});
+    chassis.waitUntilDone();
+    Intake.Score();
+    pros::delay(1000);
+    Intake.Stop();
+    Loader.retract();
+    DescoreArm.retract();
     
+    
+}
 
+void pidTuning() {
+     // set position to x:0, y:0, heading:0
+    chassis.setPose(0, 0, 0);
+    // move 48" forwards
+    chassis.moveToPoint(0, 48, 10000);
 }
