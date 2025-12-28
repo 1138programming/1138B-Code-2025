@@ -15,12 +15,19 @@ void driveControl() {
 
 // Intake Buttons
 void intakeControl(void* param) {
+    bool skillsMode = false;
+    master.print(0, 0, "%s", skillsMode ? "Skills" : "Match ");
     while(true) {
+        if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)) {
+            skillsMode = !skillsMode;
+        }
         // Intake.colorSort();
         if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
             Intake.Score();
-        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && !skillsMode) {
             Intake.ScoreMid();
+        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT) && skillsMode) {
+            Intake.ScoreMidSlow();
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
             Intake.In();
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
