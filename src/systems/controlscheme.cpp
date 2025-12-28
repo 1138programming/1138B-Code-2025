@@ -17,14 +17,14 @@ void driveControl() {
 void intakeControl(void* param) {
     while(true) {
         // Intake.colorSort();
-        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-            Intake.In();
-        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
-            Intake.Out();
-        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
+        if (master.get_digital(pros::E_CONTROLLER_DIGITAL_Y)) {
             Intake.Score();
         } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
             Intake.ScoreMid();
+        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+            Intake.In();
+        } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+            Intake.Out();
         } else if (!pros::competition::is_autonomous()) {
             Intake.Stop();
         };

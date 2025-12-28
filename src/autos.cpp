@@ -1,9 +1,11 @@
 #include "autos.hpp"
+#include "lemlib/chassis/chassis.hpp"
 #include "pros/rtos.hpp"
 #include "systems/classes.hpp"
 #include "systems/drive.hpp"
 #include "systems/intake.hpp"
 #include "systems/loader.hpp"
+#include <sys/_intsup.h>
 
 /**
 * @brief Move the robot a relative distance forwards or backwards
@@ -31,6 +33,12 @@ void relativeOdom(float xChange, float yChange, float maxSpeed, int timeout) {
     float currentX = chassis.getPose().x;
     float currentY = chassis.getPose().y;
     chassis.moveToPoint((currentX+xChange), (currentY+yChange), timeout);
+}
+
+void straightLine(float x, float y, float turnTimeout, float driveTimeout, lemlib::TurnToPointParams turnParams = {}, lemlib::MoveToPointParams driveParams = {}) {
+    chassis.turnToPoint(x, y, turnTimeout, turnParams);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(x, y, driveTimeout, driveParams);
 }
 
 void soloPleaseHit() {
@@ -183,6 +191,135 @@ void right9() {
     DescoreArm.retract();
     
     
+}
+
+void skills() {
+
+    Intake.In();
+    chassis.tank(60,60);
+    pros::delay(600);
+    chassis.tank(60, 60);
+    pros::delay(650);
+    Loader.extend();
+    pros::delay(1200);
+    chassis.tank(-25, -25);
+    pros::delay(1500);
+    chassis.tank(0, 0);
+    chassis.setPose((-48-15.5),18,0);
+    Loader.retract();
+    straightLine(-48, 36, 500, 750);
+    chassis.waitUntilDone();
+    straightLine(-24, 0, 500, 1000);
+    chassis.waitUntilDone();
+    Intake.In();
+    straightLine(-14, 24, 500, 750);
+    chassis.waitUntilDone();
+    chassis.turnToHeading(315, 500);
+    chassis.waitUntilDone();
+    Intake.Stop();
+    chassis.moveToPose(-12, 14, 315, 1250, {.forwards=false});
+    chassis.waitUntilDone();
+    Loader.extend();
+    chassis.tank(-45, -45);
+    pros::delay(350);
+    chassis.tank(0, 0);
+    chassis.turnToHeading(315, 500);
+    Intake.ScoreMidSlow();
+    moveRelative(0.5, 127, 250);
+    pros::delay(4000);
+    moveRelative(3, 127, 500);
+    chassis.waitUntilDone();
+    Intake.Stop();
+    straightLine(-48, 51, 500, 1250);
+    chassis.waitUntilDone();
+    Intake.In();
+    straightLine(-58, 51, 750, 750);
+    chassis.waitUntilDone();
+    chassis.tank(75, 75);
+    pros::delay(1000);
+    chassis.tank(0, 0);
+    chassis.setPose(-58, 48, chassis.getPose().theta);
+    straightLine(-36, 60, 500, 750, {.forwards=false}, {.forwards=false});
+    chassis.waitUntilDone();
+    Intake.Stop();
+    straightLine(45, 60, 500, 4000, {.forwards=false}, {.forwards=false});
+    Loader.retract();
+    chassis.waitUntilDone();
+    straightLine(50, 43.5, 750, 1250, {.forwards=false}, {.forwards=false});
+    chassis.waitUntilDone();
+    straightLine(28, 43.5, 750, 750, {.forwards=false}, {.forwards=false});
+    chassis.waitUntilDone();
+    Intake.Score();
+    pros::delay(2000);
+    Intake.Stop();
+    Loader.extend();
+    chassis.setPose(30.5,48,chassis.getPose().theta);
+    straightLine(58, 48, 500, 1000);
+    Intake.In();
+    chassis.waitUntilDone();
+    chassis.tank(75, 75);
+    pros::delay(1000);
+    chassis.tank(0, 0);
+    chassis.setPose(58, 48, chassis.getPose().theta);
+    straightLine(25, 48, 500, 1000, {.forwards=false}, {.forwards=false});
+    chassis.waitUntilDone();
+    Intake.Score();
+    pros::delay(2000);
+    Intake.Stop();
+    straightLine(36, 48, 500, 750);
+    chassis.waitUntilDone();
+    straightLine(46, -52, 750, 2500);
+    chassis.waitUntilDone();
+    Loader.extend();
+    straightLine(58, -52, 750, 1000);
+    Intake.In();
+    chassis.waitUntilDone();
+    chassis.tank(75, 75);
+    pros::delay(1000);
+    chassis.tank(0, 0);
+    chassis.setPose(58, -48, chassis.getPose().theta);
+    straightLine(36, -60, 500, 750, {.forwards=false}, {.forwards=false});
+    chassis.waitUntilDone();
+    Intake.Stop();
+    straightLine(-45, -60, 500, 4000, {.forwards=false}, {.forwards=false});
+    Loader.retract();
+    chassis.waitUntilDone();
+    straightLine(-50, -48, 750, 1250, {.forwards=false}, {.forwards=false});
+    chassis.waitUntilDone();
+    straightLine(-28, -48, 750, 750, {.forwards=false}, {.forwards=false});
+    chassis.waitUntilDone();
+    Intake.Score();
+    pros::delay(2000);
+    Intake.Stop();
+    Loader.extend();
+    chassis.setPose(-30.5,-48,chassis.getPose().theta);
+    straightLine(-58, -48, 500, 1000);
+    Intake.In();
+    chassis.waitUntilDone();
+    chassis.tank(75, 75);
+    pros::delay(1000);
+    chassis.tank(0, 0);
+    chassis.setPose(-58, -48, chassis.getPose().theta);
+    straightLine(-28, -48, 500, 1000, {.forwards=false}, {.forwards=false});
+    chassis.waitUntilDone();
+    chassis.turnToHeading(270, 500);
+    chassis.waitUntilDone();
+    Intake.Score();
+    pros::delay(2000);
+    Intake.Stop();
+    Loader.retract();
+    straightLine(-36, -48, 500, 750);
+    chassis.waitUntilDone();
+    straightLine(-36, 0, 750, 1250);
+    chassis.waitUntilDone();
+    chassis.turnToHeading(270, 750);
+    chassis.waitUntilDone();
+    chassis.tank(127, 127);
+    pros::delay(1250);
+    chassis.tank(0, 0);
+
+
+
 }
 
 void pidTuning() {

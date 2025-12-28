@@ -86,6 +86,11 @@ void Intake::updateState() {
             intakeTray.retract();
             //hoodTilter.retract();
             intakeMotor->move(intakeSpeed);
+            pros::delay(50);
+            if (intakeMotor->get_actual_velocity()==0) {
+                intakeMotor->move(-127);
+                pros::delay(50);
+            }
             break;
         case OUT:
             intakeTray.retract();
@@ -96,19 +101,34 @@ void Intake::updateState() {
             intakeTray.retract();
             //hoodTilter.extend();
             intakeMotor->move(127);
+            pros::delay(50);
+            if (intakeMotor->get_actual_velocity()==0) {
+                intakeMotor->move(-127);
+                pros::delay(50);
+            }
             hoodMotor->move(127);
             break;
         case SCORE_MID:
             intakeTray.extend();
             //hoodTilter.retract();
-            intakeMotor->move(127); 
+            intakeMotor->move(127);
+            pros::delay(50);
+            if (intakeMotor->get_actual_velocity()==0) {
+                intakeMotor->move(-127);
+                pros::delay(50);
+            }
             hoodMotor->move((-127*0.70));
             break;
         case SCORE_MID_SLOW:
             intakeTray.extend();
             //hoodTilter.retract();
-            intakeMotor->move((127*1.00)); 
-            hoodMotor->move((-127*0.2));
+            intakeMotor->move((127*1.00));
+            pros::delay(50);
+            if (intakeMotor->get_actual_velocity()==0) {
+                intakeMotor->move(-127);
+                pros::delay(50);
+            }
+            hoodMotor->move((-127*0.41));
             break;
         case SCORE_BOTTOM:
             intakeMotor->move_velocity(-300);
