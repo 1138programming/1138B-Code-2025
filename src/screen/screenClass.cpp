@@ -308,7 +308,7 @@ void Screen::logoPage() {
     lv_obj_set_size(logoImage, 177, 240);
     lv_img_set_src(logoImage, &logo);
     lv_img_set_zoom(logoImage, 256*0.9);
-    lv_img_set_angle(logoImage, 2700);
+    lv_img_set_angle(logoImage, 0);
     lv_obj_align(logoImage, LV_ALIGN_CENTER, 0, 0); // Align it to the center  
 }
 

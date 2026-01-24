@@ -9,15 +9,15 @@
 
 
 
-inline pros::MotorGroup left_motors({-18, -10, 9}, pros::MotorGearset::blue);
+inline pros::MotorGroup left_motors({-13, -11, 12}, pros::MotorGearset::blue);
 
-inline pros::MotorGroup right_motors({13, 2, -4}, pros::MotorGearset::blue);
+inline pros::MotorGroup right_motors({18, 20, -19}, pros::MotorGearset::blue);
 
 // sensors
 
-inline pros::IMU imu(8);
-inline pros::Rotation horzTracking(12);
-inline pros::Rotation vertTracking(1);
+inline pros::IMU imu(10);
+inline pros::Rotation horzTracking(17);
+inline pros::Rotation vertTracking(-16);
 
 inline lemlib::TrackingWheel vertTracker(&vertTracking, lemlib::Omniwheel::NEW_2, 0);
 inline lemlib::TrackingWheel horzTracker(&horzTracking, lemlib::Omniwheel::NEW_2, 0);
