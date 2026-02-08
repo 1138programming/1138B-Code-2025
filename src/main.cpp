@@ -94,7 +94,8 @@ void autonomous() {
 	newScreen.setPage(Screen::LOGO);
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 	// skills();
-	newScreen.runSelected();
+	pidTuning();
+	// newScreen.runSelected();
 	float endTime = pros::millis();
     float totalTime = (endTime - startTime)/1000;
     std::cout << totalTime << std::endl;

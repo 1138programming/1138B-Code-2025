@@ -224,7 +224,7 @@ void right9() {
     chassis.waitUntilDone();
     chassis.turnToHeading(270, 750);
     chassis.waitUntilDone();
-    chassis.moveToPoint(-28, -52, 1000, {.forwards=false});
+    chassis.moveToPoint(-28, -52, 1500, {.forwards=false});
     chassis.waitUntilDone();
     Intake.Score();
     pros::delay(1500);
@@ -234,9 +234,9 @@ void right9() {
     Intake.In();
     chassis.waitUntilDone();
     chassis.tank(75, 75);
-    pros::delay(400);
+    pros::delay(300);
     chassis.tank(0, 0);
-    straightLine(-28, -52, 500, 1250, {.forwards=false}, {.forwards=false});
+    straightLine(-28, -52, 500, 1500, {.forwards=false}, {.forwards=false});
     chassis.waitUntilDone();
     Intake.Score();
     pros::delay(1000);
@@ -381,6 +381,16 @@ void driveForward() {
 void pidTuning() {
      // set position to x:0, y:0, heading:0
     chassis.setPose(0, 0, 0);
-    // move 48" forwards
-    chassis.moveToPoint(0, 48, 10000);
+    chassis.moveToPoint(0, 24, 25000);
+    chassis.waitUntilDone();
+    chassis.moveToPoint(0, 0, 25000, {.forwards=false});
+    chassis.waitUntilDone();
+    // chassis.turnToHeading(90, 10000);
+    // chassis.waitUntilDone();
+    // chassis.turnToHeading(180, 10000);
+    // chassis.waitUntilDone();
+    // chassis.turnToHeading(270, 10000);
+    // chassis.waitUntilDone();
+    // chassis.turnToHeading(0, 10000);
+    // chassis.waitUntilDone();
 }

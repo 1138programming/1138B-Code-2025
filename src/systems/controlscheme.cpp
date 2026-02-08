@@ -51,7 +51,5 @@ void loaderControl() {
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
         DescoreArm.toggle();
     }
-    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X)) {
-        MidDescoreArm.toggle();
-    }
+    MidDescoreArm.set_value(master.get_digital(pros::E_CONTROLLER_DIGITAL_X));
 }

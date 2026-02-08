@@ -18,8 +18,9 @@ inline pros::MotorGroup right_motors({18, 20, -19}, pros::MotorGearset::blue);
 inline pros::IMU imu(10);
 inline pros::Rotation horzTracking(17);
 inline pros::Rotation vertTracking(-16);
+inline pros::adi::Pneumatics odomRetract(8, false);
 
-inline lemlib::TrackingWheel vertTracker(&vertTracking, lemlib::Omniwheel::NEW_2, 0);
+inline lemlib::TrackingWheel vertTracker(&vertTracking, 2.0, 0);
 inline lemlib::TrackingWheel horzTracker(&horzTracking, lemlib::Omniwheel::NEW_2, 0);
 // LEMLIB
 
@@ -55,26 +56,26 @@ inline lemlib::OdomSensors OdomSensors(&vertTracker, // vertical tracking wheel 
 
 // Lateral PID
 
-inline lemlib::ControllerSettings lateral_controller(5.5, // proportional gain (kP)
+inline lemlib::ControllerSettings lateral_controller(6.5, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              25, // derivative gain (kD)
+                                              20, // derivative gain (kD)
                                               0, // anti windup
-                                              1, // small error range, in inches
+                                              1.5, // small error range, in inches
                                               100, // small error range timeout, in milliseconds
-                                              3, // large error range, in inches
+                                              5, // large error range, in inches
                                               500, // large error range timeout, in milliseconds
                                               0 // maximum acceleration (slew)
 );
 
 // Angular PID
 
-inline lemlib::ControllerSettings angular_controller(1.9, // proportional gain (kP)
+inline lemlib::ControllerSettings angular_controller(2, // proportional gain (kP)
                                               0, // integral gain (kI)
-                                              20, // derivative gain (kD)
-                                              0, // anti windup
+                                              15, // derivative gain (kD)
+                                              10, // anti windup
                                               1, // small error range, in inches
                                               100, // small error range timeout, in milliseconds
-                                              3, // large error range, in inches
+                                              5, // large error range, in inches
                                               500, // large error range timeout, in milliseconds
                                               0 // maximum acceleration (slew)
 );
