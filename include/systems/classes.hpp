@@ -11,46 +11,59 @@
 
 // class definitions
 class Intake {
-    
-    public:
-        Intake(pros::Motor* intakeMotor, pros::Motor* hoodMotor, pros::adi::Pneumatics intakeTray, pros::adi::Pneumatics hoodTilter, pros::Optical ringColorSensor);
-        enum States {
-            IN,
-            OUT,
-            STOP,
-            SCORE,
-            SCORE_MID,
-            SCORE_MID_SLOW,
-            SCORE_BOTTOM
-        };
-        void setSpeed(int speed); // set the speed for the intake
-        void setSortColor(pros::Color setColor);
-        void colorSort();
-        void updateState();
-        States getState();
-        void setState(States newState);
-        bool enableSort;
-        pros::Color currentRingColor;
-        void In();
-        void Out();
-        void Stop();
-        void Score();
-        void ScoreMid();
-        void ScoreMidSlow();
-        void ScoreBottom();
-        std::string getSortColor();
+public:
 
-    private:
-        pros::Optical ringColorSensor;
-        pros::adi::Pneumatics intakeTray;
-        pros::adi::Pneumatics hoodTilter;
-        pros::Motor* intakeMotor;
-        pros::Motor* hoodMotor;
-        pros::Color setColor;
-        pros::Color oldColor;
-        int intakeSpeed;
-        bool sortNeeded;
-        States state;
-        
-        
+    // Constructor
+    Intake(pros::Motor* intakeMotor_,
+           pros::Motor* hoodMotor_,
+           pros::adi::Pneumatics intakeTray_,
+           pros::adi::Pneumatics hoodTilter_,
+           pros::Optical ringColorSensor_);
+
+    // ====== Main periodic function ======
+    void Updater();
+
+    // ====== Control commands (call on button edge) ======
+    void In();
+    void MidIn();
+    void Out();
+    void Score();
+    void ScoreMid();
+    void ScoreMidSlow();
+    void ScoreBottom();
+    void Stop();
+
+    // ====== Config ======
+    void setSpeed(int speed);
+    void setSortColor(pros::Color setColor_);
+    std::string getSortColor();
+
+private:
+
+    // ====== Hardware ======
+    pros::Motor* intakeMotor;
+    pros::Motor* hoodMotor;
+    pros::adi::Pneumatics intakeTray;
+    pros::adi::Pneumatics hoodTilter;
+    pros::Optical ringColorSensor;
+
+    // ====== Commanded outputs ======
+    int intakeCmd = 0;
+    int hoodCmd = 0;
+    bool trayExtended = false;
+    int intakeSpeed = 127;
+
+    // ====== Anti-jam ======
+    void antiJam();
+    uint32_t cmdSetTime = 0;
+    uint32_t jamStartTime = 0;
+    bool jamActive = false;
+
+    // ====== Color sorting ======
+    void colorSort();
+    pros::Color setColor{pros::Color::red};
+    pros::Color currentRingColor{pros::Color::green};
+    pros::Color oldColor{pros::Color::green};
+    bool enableSort = true;
+    bool sortNeeded = false;
 };

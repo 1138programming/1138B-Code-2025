@@ -13,38 +13,61 @@
 //intake
 
 Intake::Intake(pros::Motor* intakeMotor_, pros::Motor* hoodMotor_, pros::adi::Pneumatics intakeTray_, pros::adi::Pneumatics hoodTilter_, pros::Optical ringColorSensor_)
-    : intakeMotor(intakeMotor_), hoodMotor(hoodMotor_), intakeTray(intakeTray_), hoodTilter(hoodTilter_), ringColorSensor(ringColorSensor_), state(Intake::STOP), oldColor(pros::Color::green), enableSort(true) {ringColorSensor.set_integration_time(10); ringColorSensor.set_led_pwm(100);}
+    : intakeMotor(intakeMotor_), hoodMotor(hoodMotor_), intakeTray(intakeTray_), hoodTilter(hoodTilter_), ringColorSensor(ringColorSensor_), oldColor(pros::Color::green), enableSort(true) {ringColorSensor.set_integration_time(10); ringColorSensor.set_led_pwm(100);}
 
-void Intake::setState(States newState) {
-    state = newState;
+void Intake::In() {
+    intakeCmd = intakeSpeed;
+    hoodCmd = -127 * 0.1;
+    trayExtended = false;
+    cmdSetTime = pros::millis();
+}
+
+void Intake::MidIn() {
+    intakeCmd = 0;
+    hoodCmd = 127 * 0.5;
+    trayExtended = true;
+    cmdSetTime = pros::millis();
 }
 
 void Intake::Out() {
-    setState(Intake::OUT);
-}
-
-void Intake::In() {
-    setState(Intake::IN);
+    intakeCmd = -intakeSpeed;
+    hoodCmd = 0;
+    trayExtended = false;
+    cmdSetTime = pros::millis();
 }
 
 void Intake::Score() {
-    setState(Intake::SCORE);
+    intakeCmd = 127;
+    hoodCmd = 127;
+    trayExtended = false;
+    cmdSetTime = pros::millis();
 }
 
 void Intake::ScoreMid() {
-    setState(Intake::SCORE_MID);
+    intakeCmd = 127;
+    hoodCmd = -127 * 0.7;
+    trayExtended = true;
+    cmdSetTime = pros::millis();
 }
 
 void Intake::ScoreMidSlow() {
-    setState(Intake::SCORE_MID_SLOW);
+    intakeCmd = 127;
+    hoodCmd = -127 * 0.41;
+    trayExtended = true;
+    cmdSetTime = pros::millis();
 }
 
 void Intake::ScoreBottom() {
-    setState(Intake::SCORE_BOTTOM);
+    intakeCmd = -127 * 0.5;
+    hoodCmd = 0;
+    trayExtended = false;
+    cmdSetTime = pros::millis();
 }
 
 void Intake::Stop() {
-    setState(Intake::STOP);
+    intakeCmd = 0;
+    hoodCmd = 0;
+    trayExtended = false;
 }
 
 void Intake::setSortColor(pros::Color setColor_) {
@@ -74,66 +97,50 @@ void Intake::setSpeed(int speed) {
     Intake::intakeSpeed = speed;
 }
 
-void Intake::updateState() {
-    switch (state) {
-        case STOP:
-            intakeTray.retract();
-            //hoodTilter.retract();
-            intakeMotor->brake();
-            hoodMotor->brake();
-            break;
-        case IN:
-            intakeTray.retract();
-            //hoodTilter.retract();
-            intakeMotor->move(intakeSpeed);
-            pros::delay(50);
-            if (intakeMotor->get_actual_velocity()==0) {
-                intakeMotor->move(-127);
-                pros::delay(50);
-            }
-            break;
-        case OUT:
-            intakeTray.retract();
-            //hoodTilter.retract();
-            intakeMotor->move(-intakeSpeed);
-            break;
-        case SCORE:
-            intakeTray.retract();
-            //hoodTilter.extend();
-            intakeMotor->move(127);
-            pros::delay(50);
-            if (intakeMotor->get_actual_velocity()==0) {
-                intakeMotor->move(-127);
-                pros::delay(50);
-            }
-            hoodMotor->move(127);
-            break;
-        case SCORE_MID:
-            intakeTray.extend();
-            //hoodTilter.retract();
-            intakeMotor->move(127);
-            pros::delay(50);
-            if (intakeMotor->get_actual_velocity()==0) {
-                intakeMotor->move(-127);
-                pros::delay(50);
-            }
-            hoodMotor->move((-127*0.70));
-            break;
-        case SCORE_MID_SLOW:
-            intakeTray.extend();
-            //hoodTilter.retract();
-            intakeMotor->move((127*1.00));
-            pros::delay(50);
-            if (intakeMotor->get_actual_velocity()==0) {
-                intakeMotor->move(-127);
-                pros::delay(50);
-            }
-            hoodMotor->move((-127*0.41));
-            break;
-        case SCORE_BOTTOM:
-            intakeMotor->move_velocity(-300);
-            break;
+void Intake::antiJam() {
+
+    uint32_t now = pros::millis();
+
+    // Only anti-jam if running forward
+    if (intakeCmd <= 0) return;
+
+    // Let motor spin up before checking
+    if (now - cmdSetTime < 200) return;
+
+    // If currently reversing to clear jam
+    if (jamActive) {
+        if (now - jamStartTime > 80) {
+            jamActive = false;  // stop reversing
+        } else {
+            intakeMotor->move(-127);
+            return;
+        }
     }
+
+    // Detect stall (use threshold, not == 0)
+    if (std::abs(intakeMotor->get_actual_velocity()) < 5) {
+        jamActive = true;
+        jamStartTime = now;
+        intakeMotor->move(-127);
+    }
+}
+
+void Intake::Updater() {
+
+    //colorSort();   // your existing logic
+    antiJam();     // non-blocking jam control
+
+    // Apply pneumatics
+    if (trayExtended)
+        intakeTray.extend();
+    else
+        intakeTray.retract();
+
+    // If antiJam isn't temporarily overriding, apply normal command
+    if (!jamActive)
+        intakeMotor->move(intakeCmd);
+
+    hoodMotor->move(hoodCmd);
 }
 
 
