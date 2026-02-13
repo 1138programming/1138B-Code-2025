@@ -18,7 +18,6 @@ inline pros::MotorGroup right_motors({18, 20, -19}, pros::MotorGearset::blue);
 inline pros::IMU imu(10);
 inline pros::Rotation horzTracking(17);
 inline pros::Rotation vertTracking(-16);
-inline pros::adi::Pneumatics odomRetract(8, false);
 
 inline lemlib::TrackingWheel vertTracker(&vertTracking, 2.05, 0);
 inline lemlib::TrackingWheel horzTracker(&horzTracking, 2.05, 0);

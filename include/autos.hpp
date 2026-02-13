@@ -3,6 +3,7 @@ extern void Split7Left();
 extern void Split9Left();
 extern void right9();
 extern void right7();
+extern void left7();
 extern void pidTuning();
 extern void driveForward();
 extern void skills();
