@@ -1,4 +1,5 @@
 #include "main.h"
+#include "pros/abstract_motor.hpp"
 #include "systems/classes.hpp"
 #include "systems/drive.hpp"
 #include "systems/intake.hpp"
@@ -36,6 +37,7 @@ void initialize() {
 
 	Intake.setSpeed(127);
 	Intake.setSortColor(pros::Color::blue);
+	hoodmotor.set_brake_mode(pros::MotorBrake::hold);
 
 	initilizeControls();
 
@@ -65,6 +67,7 @@ void initialize() {
  */
 void disabled() {
 	newScreen.setPage(Screen::HOME);
+	chassis.cancelAllMotions();
 }
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -91,13 +94,14 @@ void competition_initialize() {}
 
 void autonomous() {
 	float startTime = pros::millis();
-	newScreen.setPage(Screen::LOGO);
+	newScreen.setPage(Screen::DATA);
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-	// skills();
+	skills();
 	// left7();
 	// right7();
 	// pidTuning();
-	newScreen.runSelected();
+	// soloPleaseHit();
+	// newScreen.runSelected();
 	float endTime = pros::millis();
     float totalTime = (endTime - startTime)/1000;
     std::cout << totalTime << std::endl;

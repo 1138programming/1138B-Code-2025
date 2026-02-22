@@ -7,12 +7,12 @@
 // Conversion factor from millimeters to inches, as the dist ance sensor reads in MM
 constexpr double MM_TO_INCH = 1.0 / 25.4;
 // Sensor port definitions (adjust based on your configuration)
-#define FRONT_SENSOR_PORT 8
-#define BACK_SENSOR_PORT 12
-#define LEFT_SENSOR_PORT 7
-#define RIGHT_SENSOR_PORT 13
+#define FRONT_SENSOR_PORT 21
+#define BACK_SENSOR_PORT -1
+#define LEFT_SENSOR_PORT 12
+#define RIGHT_SENSOR_PORT 20
 
-double getAveragedSensorReading(pros::Distance& sensor) { 
+inline double getAveragedSensorReading(pros::Distance& sensor) { 
     // Averages the first 10 sensor readings
     std::vector<double> validReadings;
     validReadings.reserve(NUM_SAMPLES);
@@ -53,7 +53,7 @@ double getAveragedSensorReading(pros::Distance& sensor) {
     return average;
 }
 
-void resetRobotPos(pros::Distance& sensor, const std::string& wallAxisDirection) {
+inline void resetRobotPos(pros::Distance& sensor, const std::string& wallAxisDirection) {
     double distance_mm = getAveragedSensorReading(sensor); // Get average distance
     if (distance_mm == PROS_ERR_F) {   // Check for valid averaged sensor reading
         std::cout << "[resetRobotPos] Invalid averaged reading. Aborting position reset.\n";

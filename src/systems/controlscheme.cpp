@@ -48,9 +48,8 @@ void loaderControl() {
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L1)) {
         Loader.toggle();
     }
-    // if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
-    //     DescoreArm.toggle();
-    // }
-    DescoreArm.set_value(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2));
+    if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) {
+        DescoreArm.toggle();
+    }
     MidDescoreArm.set_value(master.get_digital(pros::E_CONTROLLER_DIGITAL_X));
 }

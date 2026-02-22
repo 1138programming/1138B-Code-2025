@@ -17,7 +17,7 @@ Intake::Intake(pros::Motor* intakeMotor_, pros::Motor* hoodMotor_, pros::adi::Pn
 
 void Intake::In() {
     intakeCmd = intakeSpeed;
-    hoodCmd = -127 * 0.1;
+    hoodCmd = 0;
     trayExtended = false;
     cmdSetTime = pros::millis();
 }
@@ -118,7 +118,7 @@ void Intake::antiJam() {
     }
 
     // Detect stall (use threshold, not == 0)
-    if (std::abs(intakeMotor->get_actual_velocity()) < 5) {
+    if (std::abs(intakeMotor->get_actual_velocity()) < 1) {
         jamActive = true;
         jamStartTime = now;
         intakeMotor->move(-127);
@@ -140,7 +140,7 @@ void Intake::Updater() {
     if (!jamActive)
         intakeMotor->move(intakeCmd);
 
-    hoodMotor->move(hoodCmd);
+    if (hoodCmd != 0) {hoodMotor->move(hoodCmd);} else {hoodMotor->brake();};
 }
 
 

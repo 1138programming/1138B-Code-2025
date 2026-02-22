@@ -9,15 +9,18 @@
 
 
 
-inline pros::MotorGroup left_motors({-13, -11, 12}, pros::MotorGearset::blue);
+inline pros::MotorGroup left_motors({-11, -13, 14}, pros::MotorGearset::blue);
 
-inline pros::MotorGroup right_motors({18, 20, -19}, pros::MotorGearset::blue);
+inline pros::MotorGroup right_motors({16, 18, -17}, pros::MotorGearset::blue);
 
 // sensors
 
 inline pros::IMU imu(10);
-inline pros::Rotation horzTracking(17);
-inline pros::Rotation vertTracking(-16);
+inline pros::Rotation horzTracking(15);
+inline pros::Rotation vertTracking(-19);
+inline pros::Distance leftDistance(12);
+inline pros::Distance rightDistance(20);
+inline pros::Distance frontDistance(21);
 
 inline lemlib::TrackingWheel vertTracker(&vertTracking, 2.05, 0);
 inline lemlib::TrackingWheel horzTracker(&horzTracking, 2.05, 0);
@@ -54,30 +57,32 @@ inline lemlib::OdomSensors OdomSensors(&vertTracker, // vertical tracking wheel 
 // PIDs
 
 // Lateral PID
-
-inline lemlib::ControllerSettings lateral_controller(9.5, // proportional gain (kP)
-                                              0, // integral gain (kI)
-                                              35, // derivative gain (kD)
-                                              0, // anti windup
-                                              2, // small error range, in inches
-                                              50, // small error range timeout, in milliseconds
-                                              5, // large error range, in inches
-                                              125, // large error range timeout, in milliseconds
-                                              40 // maximum acceleration (slew)
+inline lemlib::ControllerSettings lateral_controller(
+    13,   // kP 
+    0,   // kI
+    80,   // kD
+    0,   // anti-windup
+    1,   // small error (inches)
+    100,    // small error timeout (ms)
+    3,   // large error (inches)
+    500,   // large error timeout (ms)
+    0.0    // slew (accel only; leave 0 for now)
 );
 
 // Angular PID
 
-inline lemlib::ControllerSettings angular_controller(2, // proportional gain (kP)
-                                              0.0, // integral gain (kI)
-                                              15, // derivative gain (kD)
-                                              0, // anti windup
-                                              3, // small error range, in inches
-                                              50, // small error range timeout, in milliseconds
-                                              5, // large error range, in inches
-                                              150, // large error range timeout, in milliseconds
-                                              0 // maximum acceleration (slew)
-);
+// Angular PID
+inline lemlib::ControllerSettings angular_controller(
+    3.6,   // kP  
+    0.0,   // kI
+    30.0,  // kD 
+    0.0,   // anti-windup
+    2,   // small error (degrees)
+    75,    // small error timeout (ms)
+    3.5,   // large error (degrees)
+    250,   // large error timeout (ms)
+    0.0    // slew
+);                                  
 
 // Chassis Constructor
 
