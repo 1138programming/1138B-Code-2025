@@ -100,9 +100,9 @@ void autonomous() {
 	// left7splitWing();
 	// right7();
 	// pidTuning();
-	soloPleaseHit();
+	// soloPleaseHit();
 	// split7DihWing();
-	// newScreen.runSelected();
+	newScreen.runSelected();
 	float endTime = pros::millis();
     float totalTime = (endTime - startTime)/1000;
     std::cout << totalTime << std::endl;
