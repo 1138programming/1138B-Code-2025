@@ -8,3 +8,4 @@ extern void pidTuning();
 extern void driveForward();
 extern void skills();
 extern void left7splitWing();
+extern void split7DihWing();

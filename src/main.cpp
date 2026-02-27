@@ -97,10 +97,11 @@ void autonomous() {
 	newScreen.setPage(Screen::DATA);
 	chassis.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
 	// skills();
-	left7splitWing();
+	// left7splitWing();
 	// right7();
 	// pidTuning();
-	// soloPleaseHit();
+	soloPleaseHit();
+	// split7DihWing();
 	// newScreen.runSelected();
 	float endTime = pros::millis();
     float totalTime = (endTime - startTime)/1000;
